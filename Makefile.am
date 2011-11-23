@@ -681,6 +681,7 @@ TESTSUITE_AT	= tests/testsuite.at \
 		  tests/subproject.at \
 		  tests/nonrecursive.at \
 		  tests/recursive.at \
+		  tests/tagdemo.at \
 		  tests/template.at \
 		  tests/ctor.at \
 		  tests/exceptions.at \
@@ -805,32 +806,6 @@ clean-local: clean-local-legacy
 #           using the new framework above.  When the migration is
 #           complete this section should be removed.
 
-CXX_TESTS = \
-	tests/tagdemo-static.test \
-	tests/tagdemo-static-make.test \
-	tests/tagdemo-static-exec.test \
-	tests/tagdemo-conf.test \
-	tests/tagdemo-make.test \
-	tests/tagdemo-exec.test \
-	tests/tagdemo-shared.test \
-	tests/tagdemo-shared-make.test \
-	tests/tagdemo-shared-exec.test \
-	tests/tagdemo-undef.test \
-	tests/tagdemo-undef-make.test \
-	tests/tagdemo-undef-exec.test
-
-tests/tagdemo-undef-exec.log:	tests/tagdemo-undef-make.log
-tests/tagdemo-undef-make.log:	tests/tagdemo-undef.log
-tests/tagdemo-undef.log:	tests/tagdemo-shared-exec.log
-tests/tagdemo-shared-exec.log:	tests/tagdemo-shared-make.log
-tests/tagdemo-shared-make.log:	tests/tagdemo-shared.log
-tests/tagdemo-shared.log:	tests/tagdemo-exec.log
-tests/tagdemo-exec.log:		tests/tagdemo-make.log
-tests/tagdemo-make.log:		tests/tagdemo-conf.log
-tests/tagdemo-conf.log:		tests/tagdemo-static-exec.log
-tests/tagdemo-static-exec.log:	tests/tagdemo-static-make.log
-tests/tagdemo-static-make.log:	tests/tagdemo-static.log
-
 F77_TESTS = \
 	tests/f77demo-static.test \
 	tests/f77demo-static-make.test \
@@ -932,9 +907,6 @@ tests/pdemo-make.log:		tests/pdemo-conf.log
 
 INTERACTIVE_TESTS =
 NONINTERACTIVE_TESTS = $(COMMON_TESTS)
-if HAVE_CXX
-NONINTERACTIVE_TESTS += $(CXX_TESTS)
-endif
 if HAVE_F77
 # f77demo-static-exec.test might be interactive on MSYS.
 INTERACTIVE_TESTS += $(F77_TESTS)
@@ -948,7 +920,7 @@ defs		= tests/defs
 defs_in		= $(tests_dir)/defs.in
 
 EXTRA_DIST     += $(defs_in) $(defs_m4sh) \
-		  $(COMMON_TESTS) $(CXX_TESTS) $(F77_TESTS) $(FC_TESTS) \
+		  $(COMMON_TESTS) $(F77_TESTS) $(FC_TESTS) \
 		  $(INTERACTIVE_TESTS)
 DIST_SUBDIRS   += $(CONF_SUBDIRS)
 
